@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="./index.css"> -->
+</head>
+
+<body>
+
+    <!-- chat window -->
+    <div id='chat'>
+        <div id='chatwindow'>
+
+
+        </div>
+
+        <form id='form'>
+            <input type="text" name="user" id="value">
+            <input type="submit" value="send">
+        </form>
+    </div>
+
+    <form id='userform'>
+        <input type="text" name="" id="userinput" value='enter a username'>
+        <input type="submit" value="submit">
+    </form>
+
+    <!-- css configuration -->
+    <style>
+        #chat {
+            display: block;
+            border-style: solid;
+            border-color: black;
+            border-width: 3px;
+            width: 420px;
+            height: 500px;
+            text-align: center;
+            margin: 0 auto;
+        }
+        
+        #chatwindow {
+            display: block;
+            border-style: solid;
+            border-color: grey;
+            border-width: 3px;
+            overflow-y: scroll;
+            width: 300px;
+            height: 380px;
+            margin: 0 auto;
+            text-align: left;
+        }
+    </style>
+
+    <!-- io connection -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        let user;
+        let chat = document.getElementById('chatwindow')
+        var socket = io();
+
+        //socket recievables 
+        socket.on('save user', (data) => {
+            user = data
+        })
+
+        socket.on('text rebuff', (data) => {
+            chat.innerHTML += `<p style ='color:red;display:inline-block'>${data.username}</p>  <p style ='display:inline-block'>${data.input}</p> <p></p>`
+        })
+
+
+        //text submition
+        let form = document.getElementById('form')
+        let input = document.getElementById('value')
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault()
+            socket.emit('text', {
+                input: input.value,
+                username: user
+            })
+            chat.innerHTML += `<p style ='color:red;display:inline-block'>${user}</p>  <p style ='display:inline-block'>${input.value}</p> <p></p>`
+
+
+        })
+    </script>
+</body>
+
+</html>
