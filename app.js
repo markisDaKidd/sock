@@ -13,7 +13,7 @@ let path = require('path')
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use('/', config.router)
-mongoose.connect('mongodb://localhost:27017/webchatusers', { useUnifiedTopology: true }).then(() => console.log('connection is open')).catch(err => console.log(err))
+mongoose.connect('mongodb://mongo-service:27017/webchatusers', { useUnifiedTopology: true }).then(() => console.log('connection is open')).catch(err => console.log(err))
 
 
 // app.get('/', (req, res) => {
